@@ -589,6 +589,18 @@
         border-left: 0.2em solid @colorAccent;
         padding-left: 0.5em;
     }
+    #section-0 .content > h3.sectionname { // Course header (?)
+        background: none;
+        border-bottom: 0.1em solid @colorBorder;
+        padding-bottom: 15px;
+        position: relative;
+        &::after {
+            position: absolute;
+            margin: none;
+            height: 0.1em;
+            background-color: @colorAccent;
+        }
+    }
     .course-content ul li.section.main { // Content separators
         background: none;
         border-bottom: 1px solid @colorBorder;
@@ -603,7 +615,9 @@
     pre {
         background-color: darken(@colorBgDark, @popDelta, relative);
     }
-    .content img[src$="gerbonis.PNG"], .content img[src$="kursa_info.jpg"] {
+    .content img[src$="gerbonis.PNG"],
+    .content img[src$="gerbonis_en.PNG"],
+    .content img[src$="kursa_info.jpg"] {
         filter: @imageFilter;
     }
     .content *[style*="color: #006633"], .content *[style*="color: rgb(0, 102, 51)"] { // RTU "brand" color
@@ -613,7 +627,16 @@
     // Specific fixup of course listing headers so they don't behave like tables even though
     // they continue to use tables for layouts thanks y'all
     section#region-main > [role="main"] > .course-content .topics .content .summary table[width="100%"] > tbody > tr {
-        background: none;
+        &, &:hover > td {
+            background: none !important;
+        }
+    }
+
+    // Another specific fixup for an autogen box that seems to be unique to one
+    // course?
+    .prom-box-info {
+        background-color: @colorBgLight;
+        border-color: @colorAccent;
     }
 
     // Color replacements for WYSIWYG color picker
