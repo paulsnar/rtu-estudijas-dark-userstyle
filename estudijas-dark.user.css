@@ -2,7 +2,7 @@
 @namespace      https://paulsnar.lv/
 @name           RTU Estudijas Darkmode
 @author         paulsnar <paulsnar@paulsnar.lv>
-@version        1.1.22
+@version        1.1.23
 @license        Unlicense
 @homepageURL    https://github.com/paulsnar/rtu-estudijas-dark-userstyle
 @updateURL      https://paulsnar.github.io/rtu-estudijas-dark-userstyle/estudijas-dark.user.css
@@ -12,6 +12,9 @@
 @var            color   colorText       "Text color"        #ccc
 ==/UserStyle== */
 // # Changelog
+//
+// v1.1.23 2021-11-02
+//    - Fix up lang=en specific styles
 //
 // v1.1.22 2021-11-02
 //    - Finally fix tables (thanks J)
