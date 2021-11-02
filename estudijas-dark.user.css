@@ -253,7 +253,7 @@
     aside.block-region > section[data-block="availablecourses"] > div.card-body > h5.card-title {
         margin-top: 0.25em;
     }
-    
+
     // Cards listing courses on bottom of logged-in frontpage
     .card.dashboard-card {
         background-color: @colorBgLight;
@@ -262,7 +262,7 @@
     .block .block-cards a.coursename {
         color: @colorText;
     }
-    
+
     // Course boxes etc on logged-out frontpage
     #frontpage-available-course-list, #frontpage-category-combo, #frontpage-category-names, #frontpage-course-list, #site-news-forum {
         & > h2 {
@@ -277,11 +277,11 @@
             z-index: 1;
         }
     }
-    
+
     .coursebox {
         border-color: @colorBorder;
     }
-    
+
     // Activity pages
     .activity-navigation {
         a#prev-activity-link, a#next-activity-link {
@@ -636,7 +636,7 @@
     .content *[style*="color: #660033"], .content *[style*="color: rgb(102, 0, 51)"] { color: #6f0037 !important; }
     .content *[style*="color: #330066"], .content *[style*="color: rgb(51, 0, 102)"] { color: #46008c !important; }
     .content *[style*="color: #003366"], .content *[style*="color: rgb(0, 51, 102)"] { color: #013d79 !important; }
-    
+
     // Give up for background colors because eh
     .content *[style*="background-color:"] { color: initial; }
 
