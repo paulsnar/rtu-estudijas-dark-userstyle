@@ -1,0 +1,1140 @@
+/* ==UserStyle==
+@namespace      https://paulsnar.lv/
+@name           RTU Estudijas Darkmode DEV
+@author         paulsnar <paulsnar@paulsnar.lv>
+@version        1.1.22+dev
+@license        Unlicense
+@homepageURL    https://github.com/paulsnar/rtu-estudijas-dark-userstyle
+@updateURL      https://guro.paulsnar.lv/custom/estudijas-dark.dev.user.css
+@preprocessor   less
+@var            color   colorAccent     "Accent color"      rgb(0, 206, 194)
+@var            color   colorBg         "Background color"  #282828
+@var            color   colorText       "Text color"        #ccc
+==/UserStyle== */
+// # Changelog
+//
+// v1.1.22 2021-11-02
+//    - Finally fix tables (thanks J)
+//    - Fix table layout and color for heading panel
+//    - Fix file picker
+//
+// v1.1.21 2021-09-07
+//    - Fix card header icon colors
+//
+// v1.1.20 2021-09-05
+//    - Fixes for other stuff broken during the update to 2021 edition --
+//      probably didn't catch everything so hmu if things are still broken
+//
+// v1.1.19 2021-07-08
+//    - Fixes to sideboxes which changed after some update or something idk
+//
+// v1.1.18 2021-03-31
+//    - Realign chat messages to initial instead of center
+//
+// v1.1.17 2021-03-15
+//    - Fix alert-success coloring
+//
+// v1.1.16 2021-02-25
+//    - Fix comment backgrounds upon submission
+//
+// v1.1.15 2021-02-25
+//    - Fix draft submission cell background
+//
+// v1.1.14-hotfix1 2021-02-17
+//    - (Try to) fix Stylus creating a #NaNNaNNaN color
+//
+// v1.1.14 2021-02-17
+//    - Fix mod-quiz-view best result row background
+//
+// v1.1.13 2020-12-21
+//    - Fix late submission cell background
+//
+// v1.1.12 2020-12-15
+//    - Fix forum post styling
+//
+// v1.1.11 2020-12-02
+//    - Fix color overrides for comment entry box
+//    - Excise all uses of CSS variables which were removed in 1.1.0 anyway
+//
+// v1.1.9, v1.1.10 2020-12-01
+//    - Fix hover on some buttons
+//
+// v1.1.8 2020-11-28
+//    - Fix styling for popup-style courses (like wtf)
+//
+// v1.1.7 2020-11-27
+//    - Fix ugly styling for the drag-n-drop uploader
+//
+// v1.1.6 2020-11-26
+//    - Fix color for #333 text
+//
+// v1.1.5 2020-11-26
+//    - Fix login button
+//    - Fix course titles when logged out
+//
+// v1.1.4 2020-11-25
+//    - Fix styling for non-popup modals
+//    - Add provision for b&w accent color
+//
+// v1.1.3 2020-11-25
+//    - Fix accent coloring on profile page
+//
+// v1.1.2 2020-11-25
+//    - Add fix for user name appearing above modal popups
+//
+// v1.1.1 2020-11-25
+//    - Fix background color in submission tables for "not graded" cells
+//
+// v1.1.0 2020-11-25
+//    - Rewrite into LESS
+//    - Refactor variable usage (sorry CSS variables, we need color math!)
+//    - Introduce an adjustable color scheme
+//    - Fix styles for notification tray and essay editor
+//
+// v1.0.5 2020-11-24
+//    - Increase modal backdrop opacity
+//    - Fix background on hover tables
+//
+// v1.0.3, v1.0.4 2020-11-24
+//    - Fix colors for quizzes
+//
+// v1.0.2 2020-11-24
+//    - Try to fix modal header colors again
+//
+// v1.0.1 2020-11-24
+//    - Don't invert course content; instead change colors manually
+//        - Add a bunch of color replacements and image inversions
+//    - Fix user report table styling
+//
+// v1.0.0 2020-11-24
+//    - Initial release
+
+@-moz-document domain("estudijas.rtu.lv") {
+
+    @popDelta: 30%;
+
+    @colorTextLight: darken(@colorText, 25%, relative);
+    @colorBgLight: lighten(@colorBg, @popDelta, relative);
+    @colorBgDark: darken(@colorBg, 15%, relative);
+    @colorBgLightPop: lighten(@colorBgLight, 35%, relative);
+    @colorBgAccent: mix(@colorBgLight, @colorAccent, 85%);
+    @colorBorder: lighten(@colorBgLight, @popDelta * 2, relative);
+    @colorAccentDark: darken(@colorAccent, @popDelta * 2, relative);
+    @colorAccentSubtle: mix(@colorAccent, @colorText, 35%);
+    @colorAccentHover: lighten(@colorAccent, 35%, relative);
+
+    @accentHueDelta: hue(@colorAccent) - hue(#0c5750);
+    @accentHueInverseDelta: hue(@colorAccent) - hue(#eba8af);
+    @imageContrast: 100% - (2 * lightness(@colorBg));
+
+    @imageFilter:
+        invert(100%)
+        hue-rotate(@accentHueInverseDelta * 1deg)
+        contrast(@imageContrast)
+        saturate((if(saturation(@colorAccent) = 0, 0, 100 * 100% / @imageContrast)));
+
+    // General scaffolding and fixes
+
+    body {
+        background-color: @colorBgDark;
+        background-image: none;
+        color: @colorText;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: @colorText;
+    }
+
+    hr {
+        background: none !important;
+        border-color: @colorBorder !important;
+    }
+
+    #wrapper {
+        background-color: @colorBg;
+        border-top-color: @colorAccent;
+        border-top-left-radius: 0.1em;
+        border-top-right-radius: 0.1em;
+    }
+
+    // Global header which is inexplicably set to white
+    #page-header, header.navbar, .container-fluid[style^="background"], #page {
+        background: none !important;
+    }
+    .logo > img {
+        filter: @imageFilter;
+    }
+
+    // Links
+    a, a:visited, a.active, a:focus {
+        color: @colorAccent;
+        transition: color 0.2s ease;
+    }
+    #page-mod-scorm-player, .breadcrumb-button a, #loggedin-user .usertext,
+    .breadcrumb a { // Link-alikes
+        &:extend(a);
+    }
+    a:hover {
+        color: @colorAccentHover;
+    }
+
+    // Dimmed
+    .dimmed, .dimmed_text, .usersuspended, .dimmed_category {
+        color: @colorTextLight !important;
+    }
+    a.dimmed, a.dimmed_text, .dimmed_text a, .usersuspended a, .dimmed_category a {
+        color: desaturate(darken(@colorAccent, 20%, relative), 20%, relative) !important;
+        &:link, &:visited {
+            &:extend(a.dimmed);
+        }
+    }
+
+    // Global navbar
+    .navbar-inner, .navbar .brand, .navbar .dropdown-menu, .navbar #search input, .navbar #search button[type="submit"] {
+        background-color: @colorAccentDark;
+        border-color: @colorAccent;
+    }
+    .navbar .brand:hover, .navbar .nav > li > a:hover, .navbar .dropdown-menu > li > a:hover {
+        background-color: @colorAccent !important;
+    }
+
+    // Global footer
+    #page-footer {
+        background-color: @colorAccent;
+        border-color: @colorAccent;
+        .footerlinks {
+            background: none;
+            border: none;
+            .socials .social_icons a.social {
+                color: @colorAccent;
+            }
+        }
+    }
+
+    .back-to-top {
+        color: @colorAccent;
+        &:hover {
+            color: @colorAccentHover;
+        }
+    }
+
+    // Frontpage timeline
+    [data-region="timeline-view"] [data-region="empty-message"] img {
+        filter: invert(100%);
+    }
+
+    // Header blocks
+    .block ul.block_tree a, .mform legend a, .mform legend a:hover {
+        color: @colorText;
+    }
+    .block .header .title, #region-main .block .header .title {
+        background-color: @colorBgLight;
+        border-color: @colorBorder;
+    }
+    .block .header .title h2 {
+        color: @colorText;
+    }
+    .blockstyle-02 #region-main .block {
+        border-color: @colorAccent;
+    }
+    .block .header .title h2::before, .blockstyle-02 .block .card-title::before { // icons
+        color: @colorAccent;
+    }
+
+    // Default for breadcrumbs that aren't links
+    .breadcrumb {
+        color: @colorAccentSubtle;
+    }
+    .breadcrumb > li {
+        text-shadow: none;
+    }
+
+    // Logged-in frontpage header
+    aside.block-region > section[data-block="availablecourses"] > div.card-body > h5.card-title {
+        margin-top: 0.25em;
+    }
+
+    // Cards listing courses on bottom of logged-in frontpage
+    .card.dashboard-card {
+        background-color: @colorBgLight;
+        border: 1px solid @colorBorder;
+    }
+    .block .block-cards a.coursename {
+        color: @colorText;
+    }
+
+    // Course boxes etc on logged-out frontpage
+    #frontpage-available-course-list, #frontpage-category-combo, #frontpage-category-names, #frontpage-course-list, #site-news-forum {
+        & > h2 {
+            position: relative;
+            background-image: none;
+            padding-bottom: 15px;
+            border-bottom: 3px solid @colorBorder;
+        }
+        & > h2::after {
+            position: absolute;
+            bottom: -3px;
+            z-index: 1;
+        }
+    }
+
+    .coursebox {
+        border-color: @colorBorder;
+    }
+
+    // Activity pages
+    .activity-navigation {
+        a#prev-activity-link, a#next-activity-link {
+            background: none !important;
+            color: @colorAccent !important;
+            transition: color 0.2s ease;
+            &:hover {
+                background: none !important;
+                color: @colorAccentHover !important;
+            }
+        }
+    }
+
+    // Forms
+    select, textarea, input[type="text"], input[type="password"], input[type="datetime"],
+    input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"],
+    input[type="week"], input[type="number"], input[type="email"], input[type="url"],
+    input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+        background-color: @colorBgLight;
+        color: @colorText !important;
+        border-color: @colorBorder;
+    }
+    input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+      background-color: @colorBgLightPop;
+    }
+
+    legend {
+      color: @colorText;
+    }
+
+    // Buttons
+    .btn-primary, button, .btn, .btn-default, input[type="button"], input[type="submit"], input#id_submitbutton, #submit,
+    .breadcrumb-button input[type="submit"], .jsenabled .breadcrumb-button .moodle-actionmenu[data-enhance] {
+        background-color: @colorAccentDark;
+        transition: background-color 0.2s ease 0s !important;
+        &:hover, &:focus {
+            background-color: lighten(@colorAccentDark, 25%, relative) !important;
+        }
+    }
+
+    .btn.btn-link, .btn.btn-link:hover {
+        &:extend(a);
+    }
+
+    .filter_mathjaxloader_equation {
+        color: @colorText;
+        filter: brightness(1.1);
+    }
+
+    // All sorts of tables
+    @table: {
+        tbody {
+            & > tr:nth-child(2n+1) {
+                background-color: @colorBgLight !important;
+                & > th, & > td, .cell.c0, .cell.c1, .header.c0, .header.c1 {
+                    background-color: inherit !important;
+                }
+            }
+            & tr:hover {
+                &, & > th, & > td, .cell.c1, .header.c1 {
+                    background-color: @colorBgLightPop !important;
+                }
+            }
+        }
+        th, td, .cell.c1, .header.c1 {
+            border-color: @colorBorder !important;
+            background-color: @colorBg !important;
+            position: inherit !important;
+        }
+    };
+    .cell.c0 {
+        // Fix for broken layout on 2021 update
+        width: 0 !important;
+    }
+
+    // It's a mess all right.
+    table, table#explaincaps, table#defineroletable, table.grading-report, table#listdirectories,
+    table.rolecaps, table.userenrolmet, table#form, form#movecourses table, #page-admin-coursendex .editcourse,
+    .forumheaderlist, table.flexible, .generaltable, .user-enroller-panel .uep-search-results .users,
+    .user-enroller-panel .uep-search-results .cohorts, .category_subcategories, table#modules, table#permissions,
+    .table-hover {
+        @table();
+    }
+
+    table.quizreviewsummary th.cell, table.quizreviewsummary td.cell {
+        background-color: @colorBgLight !important;
+    }
+    #page-mod-quiz-view table.quizattemptsummary tr.bestrow td {
+        background-color: @colorAccentDark !important;
+        border-color: @colorBorder;
+    }
+
+    table[style*="border:"], tr[style*="border:"] {
+        border-color: @colorBorder !important;
+    }
+
+    .preferences-container .preference-table {
+        border-color: @colorBorder;
+        tr th:nth-child(2n), tr td:nth-child(2n) {
+          background-color: @colorBgLight;
+        }
+    }
+
+    // Popup when clicking on username
+    .moodle-actionmenu[data-enhanced].show .menu {
+        background-color: @colorBgLight;
+        border-color: @colorBorder;
+    }
+    .jsenabled .usermenu .moodle-actionmenu .toggle-display.textmenu {
+        z-index: initial;
+    }
+    .jsenabled .usermenu .moodle-actionmenu.show .menu {
+        &::before, &::after { // top triangle
+            border-bottom-color: @colorBorder;
+        }
+        a {
+            transition: background-color 0.2s ease;
+            background-color: transparent;
+            &:hover {
+                background-color: @colorBgLightPop;
+                color: @colorText;
+            }
+        }
+    }
+    .jsenabled .usermenu .moodle-actionmenu > .menu .filler {
+        background: none;
+        border-bottom-color: @colorBorder;
+    }
+    .moodle-actionmenu.show[data-enhanced] .menu a {
+        color: @colorText;
+    }
+
+    // Frontpage when logged out
+    .coursebox .content h3.coursename, .course_category_tree .category.with_children h3.categoryname,
+    .course_category_tree .category.notloaded h3.categoryname, .course_category_tree .category > .info > .categoryname {
+      a {
+        color: @colorText;
+      }
+      a:hover {
+        color: lighten(@colorText, 10%, relative);
+      }
+    }
+
+    // Right-hand sidebar blocks
+    .block, .blockstyle-02 .block {
+        background: @colorBgLight;
+        border-color: @colorAccent;
+
+        .header .title, .card-title {
+            background: none;
+            border-bottom: 1px solid @colorBorder;
+            h2 {
+                color: @colorText;
+            }
+        }
+    }
+    .calendar_event_course {
+        background-color: @colorBgAccent;
+    }
+
+    // Calendar hover popups
+    .popover {
+        background-color: @colorBgLight;
+    }
+    .popover-title, .popover .popover-header {
+        background-color: @colorBgLightPop;
+        border-bottom-color: none;
+        color: @colorText;
+    }
+    .popover, .popover .popover-header, .popover.top .arrow::after {
+        border-color: @colorBgLight;
+    }
+
+    // Cards (as seen on calendar view)
+    .card {
+        background-color: @colorBgLight;
+        border-color: @colorBorder;
+    }
+    .card-header {
+        background-color: @colorBgLightPop;
+        border-color: @colorBorder;
+        color: @colorText;
+    }
+    .path-calendar .maincalendar .eventlist .event .description {
+        background: none;
+    }
+
+    // Overlay that shows up over right-hand sidebar blocks and calendar view while loading data
+    .overlay-icon-container {
+        background-color: fadeout(@colorBg, 50%);
+        z-index: 10;
+    }
+    .overlay-icon-container .loading-icon .icon {
+        filter: invert(100%);
+    }
+
+    // Modals and "dialogues"
+    .modal-backdrop, .moodle-dialogue-base .moodle-dialogue-lightbox {
+        background-color: black;
+        opacity: 0.7;
+    }
+
+    @modalBorderRadius: 0.25em;
+
+    @modal: {
+        border: none;
+        border-radius: @modalBorderRadius;
+        box-shadow: 0 0.25em 0.5em -0.1em #2224;
+        background-color: @colorBg;
+    };
+    @modal-decoration: {
+        background: @colorBgLight !important;
+        border: none !important;
+        text-shadow: none !important;
+        color: @colorText !important;
+        box-shadow: none;
+    };
+    @modal-header: {
+        @modal-decoration();
+        border-top-left-radius: @modalBorderRadius;
+        border-top-right-radius: @modalBorderRadius;
+    };
+    @modal-footer: {
+        @modal-decoration();
+        border-bottom-left-radius: @modalBorderRadius;
+        border-bottom-right-radius: @modalBorderRadius;
+    };
+
+    .modal-container .modal, .modal, .modal-content {
+        @modal();
+        .modal-header { @modal-header(); }
+        .modal-footer { @modal-footer(); }
+    }
+    .moodle-dialogue-base .moodle-dialogue-wrap {
+        @modal();
+        .moodle-dialogue-hd, .moodle-dialogue-hd.yui-widget-hd { @modal-header(); }
+        .moodle-dialogue-bd {
+            color: @colorText !important;
+        }
+    }
+
+    .modal-container .modal .modal-header .close, .moodle-dialogue-base .closebutton {
+        filter: invert(100%) contrast(50%);
+    }
+
+    .modal .modal-dialog, .modal-dialog {
+        background: none;
+    }
+
+    // Forms?
+    .form-item .form-description, .felement.fstatic {
+        color: @colorText;
+    }
+    .form-group {
+        border-color: @colorBorder !important;
+    }
+    .mform label .req > .icon, .mform .fdescription.required > .icon {
+        filter: invert(100%);
+    }
+    .mform span.error, .alert-danger, .alert-error {
+        background-color: #7d5252;
+        color: #f6afae;
+        border-color: #e598a4;
+        text-shadow: none;
+    }
+    .alert-info {
+        background-color: mix(@colorBg, #005cc2, 65%);
+        color: #bbdcff;
+        border-color: #005cc2;
+        text-shadow: none;
+    }
+    .alert-success {
+        background-color: mix(@colorBg, #005900, 50%);
+        color: #d3ffd3;
+        border-color: #008600;
+        text-shadow: none;
+    }
+
+    // Profile page
+    .page-context-header .page-header-image img, .page-context-header {
+        border-color: @colorAccent;
+    }
+    .moodle-actionmenu.show[data-enhanced] .menu a:hover {
+        background-color: @colorBgLightPop;
+        color: @colorText;
+    }
+
+    // Course content
+    .instancename {
+        color: @colorText;
+    }
+    .course-content .current {
+        background: none !important;
+        .content {
+            background: none;
+        }
+    }
+    .course-content > .topics .content > .summary table td {
+        background: none;
+    }
+    .content h3.sectionname { // Content block header
+        background-color: @colorBgLight;
+        color: @colorText;
+        border: none;
+        border-left: 0.2em solid @colorAccent;
+        padding-left: 0.5em;
+    }
+    #section-0 .content > h3.sectionname { // Course header (?)
+        background: none;
+        border-bottom: 0.1em solid @colorBorder;
+        padding-bottom: 15px;
+        position: relative;
+        &::after {
+            position: absolute;
+            margin: none;
+            height: 0.1em;
+            background-color: @colorAccent;
+        }
+    }
+    .course-content ul li.section.main { // Content separators
+        background: none;
+        border-bottom: 1px solid @colorBorder;
+    }
+    .add-scheduler_button { // "Pieteikties konsultāciju laikam"
+        background-color: @colorBgLightPop !important;
+        color: @colorText;
+    }
+    .label.label-info {
+        background-color: #007ba0;
+    }
+    pre {
+        background-color: darken(@colorBgDark, @popDelta, relative);
+    }
+    .content img[src$="gerbonis.PNG"],
+    .content img[src$="gerbonis_en.PNG"],
+    .content img[src$="kursa_info.jpg"] {
+        filter: @imageFilter;
+    }
+    .content *[style*="color: #006633"], .content *[style*="color: rgb(0, 102, 51)"] { // RTU "brand" color
+        color: @colorAccent !important;
+    }
+
+    // Specific fixup of course listing headers so they don't behave like tables even though
+    // they continue to use tables for layouts thanks y'all
+    section#region-main > [role="main"] > .course-content .topics .content .summary table[width="100%"] > tbody > tr {
+        &, &:hover > td {
+            background: none !important;
+        }
+    }
+
+    // Another specific fixup for an autogen box that seems to be unique to one
+    // course?
+    .prom-box-info {
+        background-color: @colorBgLight;
+        border-color: @colorAccent;
+    }
+
+    // Color replacements for WYSIWYG color picker
+    .content *[style*="color: rgb(0, 0, 0)"], .content *[style*="color: #000000"],
+    .content *[style*="color: rgb(51, 51, 51)"], .content *[style*="color: #333333"] { color: @colorText !important; }
+    .content *[style*="color: #ff0000"], .content *[style*="color: rgb(255, 0, 0)"] { color: #ff5050 !important; }
+    .content *[style*="color: #00ff00"], .content *[style*="color: rgb(0, 255, 0)"] { color: #58ce55 !important; }
+    .content *[style*="color: #0000ff"], .content *[style*="color: rgb(0, 0, 255)"] { color: #2479ff !important; }
+    .content *[style*="color: #ffff00"], .content *[style*="color: rgb(255, 255, 0)"] { color: #eac502 !important; }
+    .content *[style*="color: #00ffff"], .content *[style*="color: rgb(0, 255, 255)"] { color: #0bd1ff !important; }
+    .content *[style*="color: #ff00ff"], .content *[style*="color: rgb(255, 0, 255)"] { color: #ff4ab0 !important; }
+    .content *[style*="color: #800000"], .content *[style*="color: rgb(128, 0, 0)"] { color: #c15c5c !important; }
+    .content *[style*="color: #008000"], .content *[style*="color: rgb(0, 128, 0)"] { color: #1fa80b !important; }
+    .content *[style*="color: #000080"], .content *[style*="color: rgb(0, 0, 128)"] { color: #0202b9 !important; }
+    .content *[style*="color: #808000"], .content *[style*="color: rgb(128, 128, 0)"] { color: #cca14f !important; }
+    .content *[style*="color: #008080"], .content *[style*="color: rgb(128, 0, 128)"] { color: #2d98cc !important; }
+    .content *[style*="color: #800080"], .content *[style*="color: rgb(0, 128, 128)"] { color: #c044db !important; }
+    .content *[style*="color: #663300"], .content *[style*="color: rgb(102, 51, 0)"] { color: #b06112 !important; }
+    .content *[style*="color: #336600"], .content *[style*="color: rgb(51, 102, 0)"] { color: #4a8c07 !important; }
+    .content *[style*="color: #660033"], .content *[style*="color: rgb(102, 0, 51)"] { color: #6f0037 !important; }
+    .content *[style*="color: #330066"], .content *[style*="color: rgb(51, 0, 102)"] { color: #46008c !important; }
+    .content *[style*="color: #003366"], .content *[style*="color: rgb(0, 51, 102)"] { color: #013d79 !important; }
+
+    // Give up for background colors because eh
+    .content *[style*="background-color:"] { color: initial; }
+
+    // Popup style (icon grid) course content
+    .course-content ul.gridicons li {
+        &.currentselected {
+            background-color: @colorBgLight;
+            .icon_content {
+                color: @colorAccent;
+            }
+        }
+
+        .image_holder {
+            background-color: @colorBgLightPop;
+        }
+    }
+
+    .iconbox .iconcircle {
+        border-color: @colorAccent;
+        & i {
+            color: @colorAccent;
+        }
+    }
+
+    #gridshadebox_content {
+        background-color: @colorBg;
+        border-color: @colorBorder;
+    }
+    #gridshadebox_close {
+        filter: saturate(saturation(@colorBg));
+    }
+
+    .headline {
+        background-color: @colorBgLight;
+        border-color: @colorBorder;
+        & span[style*="color:"] {
+            color: @colorText !important;
+        }
+        & i {
+            background-color: transparent;
+            color: @colorAccent;
+        }
+    }
+
+    .panel {
+        background-color: @colorBgLight;
+        & .panel-heading a::before {
+            &:extend(.headline i);
+        }
+    }
+    .panel-default > .panel-heading {
+        background-color: @colorBgLightPop;
+        border-color: @colorBorder;
+    }
+    .panel-group .panel .panel-heading a {
+        color: @colorText !important;
+    }
+
+    .prom-box-danger {
+        background-color: @colorBgLight;
+    }
+
+    // Forum posts
+    .forumpost {
+        background-color: @colorBgLight;
+        border-color: @colorBorder !important;
+
+        .header {
+            background-color: @colorBgLightPop;
+        }
+        .subject {
+            color: @colorText;
+        }
+        .author::before {
+            color: @colorAccent;
+        }
+    }
+    .path-mod-forum article .nav .nav-link + .nav-link {
+        border-left-color: @colorBorder;
+    }
+
+    // Assignment review page
+    .path-mod-assign {
+        .submissionsummarytable, .mod-assign-history-panel {
+            .c0, .c1 {
+                background: none !important;
+                color: inherit;
+            }
+        }
+        .submissionsubmmarytable {
+            td, div, .cell.c0, .cell.c1 {
+                &.submissionstatussubmitted, &.submissiongraded, &.earlysubmission, &.submissionnotgraded {
+                    background-color: @colorBgLightPop !important;
+                    color: @colorText !important;
+                }
+                &.latesubmission {
+                    background-color: #611 !important;
+                    color: inherit !important;
+                }
+            }
+        }
+        tbody tr td, .cell.c0, .cell.c1, div, a:link, .submissionsummarytable {
+            &.earlysubmission, &.submissiongraded, &.submissionstatussubmitted {
+                background-color: #007500 !important;
+            }
+            &.submissionstatusdraft {
+                background-color: #755d2f !important;
+                color: inherit;
+            }
+        }
+        a:link {
+            &.submissionstatussubmitted {
+                color: @colorText;
+            }
+        }
+    }
+
+    .path-grade-report-user .user-grade.generaltable .levelodd {
+        background-color: @colorBgLight;
+    }
+
+    .comment-area textarea[style*="color: grey"] {
+        color: @colorTextLight !important;
+    }
+    li[id^="comment-"] {
+        background-color: @colorBgLight !important;
+        color: inherit !important;
+    }
+
+    // Quizzes
+    .que {
+        .info {
+            background-color: @colorBgLight;
+            border-color: @colorBorder;
+        }
+
+        .formulation {
+            background: none;
+            color: @colorText;
+            text-shadow: none;
+
+            .correct {
+                background-color: #365736;
+            }
+
+            .partiallycorrect {
+                background-color: #665f37;
+            }
+
+            .incorrect {
+                background-color: #804242;
+            }
+        }
+
+        .outcome, .comment { // Explainer box below question
+            text-shadow: none;
+            background-color: #555039;
+            border-color: #c18003;
+            color: #ffd999;
+        }
+
+        &.essay .qtype_essay_response.readonly {
+            background: none;
+            color: @colorText;
+        }
+    }
+
+    // Course list
+    .course_category_tree {
+        .category.with_children, .category.notloaded {
+            h3.categoryname, h4.categoryname {
+                a {
+                    color: @colorText;
+                }
+            }
+        }
+
+        .collapsible-actions .collapseexpand {
+            color: @colorText !important;
+        }
+    }
+    .coursebox > .info {
+        & > .coursename, & > .name {
+            a::before {
+                background-color: @colorBgLightPop;
+                color: @colorText;
+            }
+        }
+    }
+
+    .pagination {
+        ul > li > a {
+            transition: background-color 0.2s ease;
+            background-color: @colorBgLight;
+            border-color: @colorBorder;
+        }
+        ul > li > a:hover, ul > li > a:focus {
+            background-color: lighten(@colorBgLightPop, 10%, relative);
+        }
+        ul > .active > a, ul > .active > span {
+            &, &:hover, &:focus {
+                background-color: @colorBgLightPop;
+            }
+        }
+        ul > .disabled {
+            & > span, & > a, & > a:hover, & > a:focus {
+                color: darken(@colorText, 35%, relative);
+                border-color: @colorBorder;
+            }
+        }
+    }
+
+    // Quiz navigation
+    .path-mod-quiz #mod_quiz_navblock {
+        span.qnbutton, .qnbutton {
+            background-color: @colorBgLight;
+            color: @colorText;
+        }
+        .qnbutton.notyetanswered, .qnbutton.invalidanswer {
+            .trafficlight {
+                background-color: lighten(@colorBgLightPop, 15%, relative);
+            }
+        }
+        .allquestionsononepage .qnbutton.thispage .thispageholder {
+            border-color: @colorBorder;
+        }
+    }
+
+    // Upload submission save/cancel buttons
+    table#form td.submit,
+    .form-buttons,
+    .path-admin .buttons, #fitem_id_submitbutton,
+    .fp-content-center form + div,
+    div.backup-section + form,
+    #fgroup_id_buttonar {
+        background: none;
+        border: none;
+    }
+
+    // Upload file manager
+    .filemanager-updating, .filemanager-loading {
+      & > .icon {
+        filter: invert(100%);
+      }
+    }
+
+    .filemanager a, .filemanager a:hover {
+        color: @colorText;
+    }
+
+    .filemanager .fp-navbar {
+        background-color: @colorBgLight !important;
+        border-color: @colorBorder;
+    }
+    .filemanager .fp-toolbar {
+        .fp-btn, a {
+            transition: background 0.1s ease-in-out !important;
+            background-color: @colorBgLightPop !important;
+            border: none;
+            &:hover {
+                background-color: @colorBgLight !important;
+            }
+        }
+        .fp-btn-add, .fp-btn-download, .fp-btn-mkdir {
+            &:extend(.fp-toolbar .fp-btn);
+        }
+        & > * {
+            border-color: @colorBorder;
+            background: none;
+        }
+    }
+    .fp-viewbar {
+        background-color: @colorBgLight;
+        border-color: @colorBorder;
+
+        &:extend(.fp-toolbar .fp-btn);
+        a, a.btn {
+            transition: background 0.1s ease-in-out;
+            border-color: @colorBorder;
+            background: none;
+        }
+        a.checked, a.btn.checked {
+            background: @colorBg;
+        }
+        a:hover, a.btn:hover, a.checked:hover, a.btn.checked:hover {
+            background: @colorBgLight;
+        }
+    }
+    .fp-toolbar a[role="button"] > .icon, .fp-navbar a[role="button"] > .icon {
+        filter: brightness(2);
+    }
+
+    .fp-pathbar {
+        border-color: @colorBorder;
+    }
+
+    .filemanager-container, .filemanager-container.card {
+        background-color: @colorBg;
+        border-color: @colorBorder;
+
+        & .dndupload-target {
+            background: @colorBg;
+            box-shadow: none;
+        }
+
+        &.dndupload-ready {
+            background: @colorBg;
+            & .dndupload-target {
+                background: @colorBg;
+            }
+        }
+
+        &.dndupload-over {
+            background: @colorBgLight;
+            & .dndupload-target {
+                background: @colorBgLight;
+            }
+        }
+    }
+    .fp-iconview .fp-thumbnail, .fp-iconview .fp-thumbnail img,
+    .fp-select .fp-thumbnail, .fp-select .fp-thumbnail img{
+        border: none;
+        box-shadow: none;
+        background: none;
+    }
+    .fp-iconview .fp-filename-field .fp-filename {
+        background: none;
+        color: @colorText;
+    }
+
+    .fp-select .fp-hr {
+        @extend(hr);
+    }
+
+    .dndupload-arrow {
+        filter: invert(100%) hue-rotate(180deg) contrast(@imageContrast);
+    }
+
+    .file-picker, .filemanager {
+        a, a:hover {
+            color: @colorText !important;
+        }
+    }
+
+    .filemanager .yui3-datatable-header {
+        background-color: @colorBgLightPop !important;
+        color: @colorText !important;
+        border-color: @colorBorder !important;
+        text-shadow: none;
+    }
+    .filemanager .yui3-datatable-even .yui3-datatable-cell {
+        background-color: @colorBgLight !important;
+        border-color: @colorBorder !important;
+    }
+
+    // File picker popup
+    .filepicker-filelist, .filepicker-container, .filemanager.fm-noitems .fm-empty-container {
+        border-color: @colorBorder;
+    }
+
+    .file-picker {
+        .fp-content {
+            background-color: @colorBg;
+        }
+        .fp-navbar {
+            background-color: @colorBgLight !important;
+            border-color: @colorBorder;
+            color: @colorText;
+        }
+        .fp-repo-area {
+            border-color: @colorBorder;
+        }
+        .fp-list .fp-repo.active {
+            background-color: @colorBgLightPop !important;
+        }
+        a, a:hover {
+            color: @colorText;
+        }
+    }
+
+    .moodle-dialogue-base .moodle-dialogue-wrap .moodle-dialogue-bd {
+        color: @colorText !important;
+    }
+    .moodle-dialogue .fp-repo.nav-item.active {
+        background-color: @colorBgLight;
+    }
+
+    // Essay editor
+    div.editor_atto_toolbar {
+        background: @colorBgLight;
+        border-color: @colorBorder;
+        div.atto_group, button, button + button {
+            background: @colorBgLightPop;
+            border-color: @colorBorder;
+        }
+        button.highlight, button:active {
+            background: lighten(@colorBgLightPop, 10%, relative);
+        }
+        button:hover {
+            background: @colorBg;
+        }
+        button .icon {
+            // filter: invert(100%) brightness(1.75);
+        }
+    }
+
+    .dropdown-menu {
+        background: @colorBgLight;
+        transition: background 0.2s ease;
+        & > li > a {
+            color: @colorText;
+            &:hover {
+                background-color: @colorBgLightPop;
+                color: @colorText;
+            }
+        }
+    }
+
+    .editor_atto_content_wrap, .editor_atto + textarea {
+        background-color: @colorBg;
+        border-color: @colorBorder;
+        color: @colorText;
+    }
+
+    // Moodle messaging
+    .count-container { // Message count badge on messaging icon
+        background-color: darken(@colorAccent, @popDelta, relative);
+    }
+
+    .path-mod-lti .message {
+        text-align: initial;
+    }
+
+    .message-drawer {
+        box-shadow: 1em 0 1em 1em #222b;
+
+        &, .bg-secondary, .bg-white, .bg-light, .list-group .list-group-item {
+            background-color: @colorBg !important;
+        }
+        .btn-link:hover, .btn-link:focus {
+            background-color: @colorBgLightPop;
+        }
+        .border-bottom, .list-group .list-group-item {
+            border-color: @colorBorder !important;
+        }
+        img.rounded-circle[src*="lambda/core"] {
+            filter: invert(75%);
+        }
+    }
+    @keyframes bg-pulse-grey {
+        0%, 100% { background-color: @colorBgLightPop; }
+        50% { background-color: lighten(@colorBgLightPop, 15%, relative); }
+    }
+
+    // Moodle notifications
+    .popover-region-container, .popover-region-footer-container {
+        background-color: @colorBgLight;
+        border-color: @colorBorder;
+    }
+    .popover-region-header-container {
+        border-color: @colorBorder;
+    }
+    .popover-region-toggle {
+        &::before {
+            display: none;
+        }
+        &::after {
+            bottom: -8px !important;
+            border-left: 0.5em solid transparent;
+            border-right: 0.5em solid transparent;
+            border-bottom: 0.5em solid @colorBorder;
+            right: 0;
+            margin-right: 0.2em;
+        }
+    }
+}
+
+// vim: set tabstop=4 softtabstop=4 shiftwidth=4 filetype=less: //
