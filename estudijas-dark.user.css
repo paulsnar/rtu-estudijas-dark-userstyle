@@ -4,7 +4,8 @@
 @author         paulsnar <paulsnar@paulsnar.lv>
 @version        1.1.22
 @license        Unlicense
-@updateURL      https://guro.paulsnar.lv/custom/estudijas-dark.user.css
+@homepageURL    https://github.com/paulsnar/rtu-estudijas-dark-userstyle
+@updateURL      https://paulsnar.github.io/rtu-estudijas-dark-userstyle/estudijas-dark.user.css
 @preprocessor   less
 @var            color   colorAccent     "Accent color"      rgb(0, 206, 194)
 @var            color   colorBg         "Background color"  #282828
