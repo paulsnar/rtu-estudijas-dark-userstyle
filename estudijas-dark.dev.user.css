@@ -2,7 +2,7 @@
 @namespace      https://paulsnar.lv/
 @name           RTU Estudijas Darkmode DEV
 @author         paulsnar <paulsnar@paulsnar.lv>
-@version        1.1.22+dev
+@version        1.1.23+dev
 @license        Unlicense
 @homepageURL    https://github.com/paulsnar/rtu-estudijas-dark-userstyle
 @updateURL      https://guro.paulsnar.lv/custom/estudijas-dark.dev.user.css
@@ -12,6 +12,9 @@
 @var            color   colorText       "Text color"        #ccc
 ==/UserStyle== */
 // # Changelog
+//
+// v1.1.23 2021-11-02
+//    - Fix up lang=en specific styles
 //
 // v1.1.22 2021-11-02
 //    - Finally fix tables (thanks J)
@@ -1093,11 +1096,35 @@
         text-align: initial;
     }
 
-    .message-drawer {
+    .input-append, .input-prepend {
+        .add-on {
+            border-color: @colorBorder;
+        }
+    }
+
+    .drawer[data-region="right-hand-drawer"] {
         box-shadow: 1em 0 1em 1em #222b;
+    }
+    .message-app {
+        background-color: @colorBg;
+        border: none;
 
         &, .bg-secondary, .bg-white, .bg-light, .list-group .list-group-item {
             background-color: @colorBg !important;
+        }
+        .container-fluid {
+            .btn.btn-link {
+                &, &:hover {
+                    background-color: @colorBgLight !important;
+                }
+                &.btn-icon:hover {
+                    background-color: @colorBgLightPop !important;
+                }
+            }
+
+            .header-container [data-region="favourite-icon-container"]::after {
+                color: @colorAccent;
+            }
         }
         .btn-link:hover, .btn-link:focus {
             background-color: @colorBgLightPop;
@@ -1108,7 +1135,37 @@
         img.rounded-circle[src*="lambda/core"] {
             filter: invert(75%);
         }
+
+        .accordion-body {
+            background-color: @colorBgLight;
+        }
+
+        .border-top, .border-right, .border-bottom, .border-left {
+            border-color: @colorBorder !important;
+        }
+
+        .contact-status.online {
+            border: none;
+            background-color: #51e100;
+        }
     }
+    #page-message-index #region-main .bg-light {
+        background-color: @colorBg !important;
+    }
+    #region-main .message-app .body-container {
+        background-color: @colorBgLight;
+    }
+    .message.clickable.d-flex.flex-column.p-2.rounded.mb-2.mt-2 {
+        // what the _fuck_ even is this classname
+        // thanks, Tailwind!
+        &.bg-secondary {
+            background-color: @colorBgAccent !important;
+        }
+        &.bg-white {
+            background-color: @colorBgLight !important;
+        }
+    }
+
     @keyframes bg-pulse-grey {
         0%, 100% { background-color: @colorBgLightPop; }
         50% { background-color: lighten(@colorBgLightPop, 15%, relative); }
