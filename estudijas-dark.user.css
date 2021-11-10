@@ -417,6 +417,9 @@
         .menu-action-text {
             color: @colorText;
         }
+        .dropdown-item:hover {
+            background-color: @colorBgLightPop;
+        }
         a {
             transition: none;
             background-color: transparent;
