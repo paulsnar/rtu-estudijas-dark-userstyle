@@ -410,25 +410,31 @@
     .jsenabled .usermenu .moodle-actionmenu .toggle-display.textmenu {
         z-index: initial;
     }
-    .jsenabled .usermenu .moodle-actionmenu.show .menu {
+    .moodle-actionmenu .dropdown {
         &::before, &::after { // top triangle
             border-bottom-color: @colorBorder;
         }
+        .menu-action-text {
+            color: @colorText;
+        }
         a {
-            transition: background-color 0.2s ease;
+            transition: none;
             background-color: transparent;
             &:hover {
                 background-color: @colorBgLightPop;
-                color: @colorText;
+            }
+            &:focus {
+                background-color: @colorBgLightPop;
+                outline: 0.125em dotted @colorText;
             }
         }
-    }
-    .jsenabled .usermenu .moodle-actionmenu > .menu .filler {
-        background: none;
-        border-bottom-color: @colorBorder;
-    }
-    .moodle-actionmenu.show[data-enhanced] .menu a {
-        color: @colorText;
+        a.dropdown-toggle:hover, a.dropdown-toggle:focus {
+            background: none;
+        }
+        .dropdown-divider > .filler {
+            background: none;
+            border-bottom-color: @colorBorder;
+        }
     }
 
     // Frontpage when logged out
