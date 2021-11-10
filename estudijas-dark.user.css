@@ -163,6 +163,11 @@
         border-top-right-radius: 0.1em;
     }
 
+    .list-group-item {
+        background-color: @colorBgLightPop;
+        padding: 1em;
+    }
+
     // Global header which is inexplicably set to white
     #page-header, header.navbar, .container-fluid[style^="background"], #page {
         background: none !important;
