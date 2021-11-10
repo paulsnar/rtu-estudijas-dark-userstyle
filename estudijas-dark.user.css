@@ -1091,13 +1091,28 @@
 
     .dropdown-menu {
         background: @colorBgLight;
-        transition: background 0.2s ease;
+        border-color: @colorBorder;
+        transition: none;
         & > li > a {
             color: @colorText;
+            transition: none;
             &:hover {
                 background-color: @colorBgLightPop;
                 color: @colorText;
             }
+            &:focus {
+                background-color: @colorBgLightPop;
+                outline: 0.125em dotted @colorText;
+            }
+        }
+        & > .active > a {
+            &, &:hover, &:focus {
+                background-color: @colorBgDark;
+            }
+        }
+        .divider {
+            background: none;
+            border-bottom-color: @colorBorder;
         }
     }
 
