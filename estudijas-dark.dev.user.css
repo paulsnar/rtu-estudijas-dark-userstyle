@@ -2,7 +2,7 @@
 @namespace      https://paulsnar.lv/
 @name           RTU Estudijas Darkmode DEV
 @author         paulsnar <paulsnar@paulsnar.lv>
-@version        1.1.23+dev
+@version        1.1.24+dev
 @license        Unlicense
 @homepageURL    https://github.com/paulsnar/rtu-estudijas-dark-userstyle
 @updateURL      https://guro.paulsnar.lv/custom/estudijas-dark.dev.user.css
@@ -12,6 +12,9 @@
 @var            color   colorText       "Text color"        #ccc
 ==/UserStyle== */
 // # Changelog
+//
+// v1.1.24 2021-11-04
+//    - Fix styles for messaging app
 //
 // v1.1.23 2021-11-02
 //    - Fix up lang=en specific styles
@@ -158,6 +161,11 @@
         border-top-color: @colorAccent;
         border-top-left-radius: 0.1em;
         border-top-right-radius: 0.1em;
+    }
+
+    .list-group-item {
+        background-color: @colorBgLightPop;
+        padding: 1em;
     }
 
     // Global header which is inexplicably set to white
@@ -318,11 +326,17 @@
     // Buttons
     .btn-primary, button, .btn, .btn-default, input[type="button"], input[type="submit"], input#id_submitbutton, #submit,
     .breadcrumb-button input[type="submit"], .jsenabled .breadcrumb-button .moodle-actionmenu[data-enhance] {
-        background-color: @colorAccentDark;
+        background-color: @colorAccentDark !important;
         transition: background-color 0.2s ease 0s !important;
         &:hover, &:focus {
-            background-color: lighten(@colorAccentDark, 25%, relative) !important;
+            background-color: lighten(@colorAccentDark, 35%, relative) !important;
         }
+    }
+    .btn-group.open .btn.dropdown-toggle,
+    .dropdown.open button#displaydropdown,
+    .dropdown.open button#groupingdropdown {
+        &:extend(button:hover);
+        color: @colorText !important;
     }
 
     .btn.btn-link, .btn.btn-link:hover {
@@ -396,25 +410,31 @@
     .jsenabled .usermenu .moodle-actionmenu .toggle-display.textmenu {
         z-index: initial;
     }
-    .jsenabled .usermenu .moodle-actionmenu.show .menu {
+    .moodle-actionmenu .dropdown {
         &::before, &::after { // top triangle
             border-bottom-color: @colorBorder;
         }
+        .menu-action-text {
+            color: @colorText;
+        }
         a {
-            transition: background-color 0.2s ease;
+            transition: none;
             background-color: transparent;
             &:hover {
                 background-color: @colorBgLightPop;
-                color: @colorText;
+            }
+            &:focus {
+                background-color: @colorBgLightPop;
+                outline: 0.125em dotted @colorText;
             }
         }
-    }
-    .jsenabled .usermenu .moodle-actionmenu > .menu .filler {
-        background: none;
-        border-bottom-color: @colorBorder;
-    }
-    .moodle-actionmenu.show[data-enhanced] .menu a {
-        color: @colorText;
+        a.dropdown-toggle:hover, a.dropdown-toggle:focus {
+            background: none;
+        }
+        .dropdown-divider > .filler {
+            background: none;
+            border-bottom-color: @colorBorder;
+        }
     }
 
     // Frontpage when logged out
@@ -1071,13 +1091,28 @@
 
     .dropdown-menu {
         background: @colorBgLight;
-        transition: background 0.2s ease;
+        border-color: @colorBorder;
+        transition: none;
         & > li > a {
             color: @colorText;
+            transition: none;
             &:hover {
                 background-color: @colorBgLightPop;
                 color: @colorText;
             }
+            &:focus {
+                background-color: @colorBgLightPop;
+                outline: 0.125em dotted @colorText;
+            }
+        }
+        & > .active > a {
+            &, &:hover, &:focus {
+                background-color: @colorBgDark;
+            }
+        }
+        .divider {
+            background: none;
+            border-bottom-color: @colorBorder;
         }
     }
 
@@ -1190,6 +1225,17 @@
             border-bottom: 0.5em solid @colorBorder;
             right: 0;
             margin-right: 0.2em;
+        }
+    }
+
+    body > center + hr + center {
+        color: @colorAccent;
+        &::after {
+            content: ' ';
+            display: block;
+            width: 28px;
+            height: 28px;
+            background-image: url(https://cdn.betterttv.net/emote/56e9f494fff3cc5c35e5287e/1x);
         }
     }
 }
