@@ -326,11 +326,17 @@
     // Buttons
     .btn-primary, button, .btn, .btn-default, input[type="button"], input[type="submit"], input#id_submitbutton, #submit,
     .breadcrumb-button input[type="submit"], .jsenabled .breadcrumb-button .moodle-actionmenu[data-enhance] {
-        background-color: @colorAccentDark;
+        background-color: @colorAccentDark !important;
         transition: background-color 0.2s ease 0s !important;
         &:hover, &:focus {
-            background-color: lighten(@colorAccentDark, 25%, relative) !important;
+            background-color: lighten(@colorAccentDark, 35%, relative) !important;
         }
+    }
+    .btn-group.open .btn.dropdown-toggle,
+    .dropdown.open button#displaydropdown,
+    .dropdown.open button#groupingdropdown {
+        &:extend(button:hover);
+        color: @colorText !important;
     }
 
     .btn.btn-link, .btn.btn-link:hover {
