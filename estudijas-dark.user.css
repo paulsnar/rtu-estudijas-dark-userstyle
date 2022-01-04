@@ -321,6 +321,10 @@
         }
     }
 
+    .content > .summary table > tbody > tr:hover > td {
+        background-color: @colorBg !important;
+    }
+
     // Popup when clicking on username
     .moodle-actionmenu[data-enhanced].show .menu {
         background-color: @colorBgLight;
