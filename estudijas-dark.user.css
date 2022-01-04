@@ -2,7 +2,7 @@
 @namespace      https://paulsnar.lv/
 @name           RTU Estudijas Darkmode
 @author         paulsnar <paulsnar@paulsnar.lv>
-@version        1.1.25
+@version        1.1.26
 @license        Unlicense
 @homepageURL    https://github.com/paulsnar/rtu-estudijas-dark-userstyle
 @updateURL      https://paulsnar.github.io/rtu-estudijas-dark-userstyle/estudijas-dark.user.css
@@ -12,6 +12,9 @@
 @var            color   colorText       "Text color"        #ccc
 ==/UserStyle== */
 // # Changelog
+//
+// v1.1.26 2022-01-04
+//    - Fix back-to-top, tables, navbar and notification popup styles
 //
 // v1.1.25 2021-11-05
 //    - Fix .list-group-item
@@ -31,10 +34,6 @@
 //
 // v1.1.21 2021-09-07
 //    - Fix card header icon colors
-//
-// v1.1.20 2021-09-05
-//    - Fixes for other stuff broken during the update to 2021 edition --
-//      probably didn't catch everything so hmu if things are still broken
 
 @-moz-document domain("estudijas.rtu.lv") {
 
@@ -126,8 +125,19 @@
         background-color: @colorAccentDark;
         border-color: @colorAccent;
     }
-    .navbar .brand:hover, .navbar .nav > li > a:hover, .navbar .dropdown-menu > li > a:hover {
+    .navbar .brand:hover,
+    .navbar .nav > li > a:hover,
+    .navbar .dropdown-menu > li > a:hover,
+    .navbar .nav li.dropdown.open > .dropdown-toggle {
         background-color: @colorAccent !important;
+    }
+
+    .navbar .dropdown-menu {
+        border-bottom-width: 0.125em;
+    }
+
+    .lambda-custom-menu li.dropdown:hover::after {
+        border-bottom-color: @colorBorder;
     }
 
     // Global footer
@@ -143,11 +153,9 @@
         }
     }
 
-    .back-to-top {
-        color: @colorAccent;
-        &:hover {
-            color: @colorAccentHover;
-        }
+    a.back-to-top {
+        &::before { color: @colorAccent; }
+        &:hover::before { color: @colorAccentHover; }
     }
 
     // Frontpage timeline
@@ -275,7 +283,7 @@
             & > tr:nth-child(2n+1) {
                 background-color: @colorBgLight !important;
                 & > th, & > td, .cell.c0, .cell.c1, .header.c0, .header.c1 {
-                    background-color: inherit !important;
+                    background-color: inherit;
                 }
             }
             & tr:hover {
@@ -321,6 +329,10 @@
         tr th:nth-child(2n), tr td:nth-child(2n) {
           background-color: @colorBgLight;
         }
+    }
+
+    .content > .summary table > tbody > tr:hover > td {
+        background-color: @colorBg !important;
     }
 
     // Popup when clicking on username
@@ -1140,6 +1152,7 @@
         border-color: @colorBorder;
     }
     .popover-region-toggle {
+        position: relative;
         &::before {
             display: none;
         }
@@ -1152,6 +1165,11 @@
             margin-right: 0.2em;
         }
     }
+
+    .content-item-container:hover {
+        background-color: @colorBgLight;
+        color: @colorText;
+    };
 
     body > center + hr + center {
         color: @colorAccent;
