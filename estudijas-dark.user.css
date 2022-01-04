@@ -1153,6 +1153,7 @@
         border-color: @colorBorder;
     }
     .popover-region-toggle {
+        position: relative;
         &::before {
             display: none;
         }
@@ -1165,6 +1166,11 @@
             margin-right: 0.2em;
         }
     }
+
+    .content-item-container:hover {
+        background-color: @colorBgLight;
+        color: @colorText;
+    };
 
     body > center + hr + center {
         color: @colorAccent;
