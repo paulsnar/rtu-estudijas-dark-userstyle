@@ -275,7 +275,7 @@
             & > tr:nth-child(2n+1) {
                 background-color: @colorBgLight !important;
                 & > th, & > td, .cell.c0, .cell.c1, .header.c0, .header.c1 {
-                    background-color: inherit !important;
+                    background-color: inherit;
                 }
             }
             & tr:hover {
