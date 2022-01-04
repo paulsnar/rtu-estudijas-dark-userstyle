@@ -143,11 +143,9 @@
         }
     }
 
-    .back-to-top {
-        color: @colorAccent;
-        &:hover {
-            color: @colorAccentHover;
-        }
+    a.back-to-top {
+        &::before { color: @colorAccent; }
+        &:hover::before { color: @colorAccentHover; }
     }
 
     // Frontpage timeline
