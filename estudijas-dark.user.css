@@ -2,7 +2,7 @@
 @namespace      https://paulsnar.lv/
 @name           RTU Estudijas Darkmode
 @author         paulsnar <paulsnar@paulsnar.lv>
-@version        1.1.25
+@version        1.1.26
 @license        Unlicense
 @homepageURL    https://github.com/paulsnar/rtu-estudijas-dark-userstyle
 @updateURL      https://paulsnar.github.io/rtu-estudijas-dark-userstyle/estudijas-dark.user.css
@@ -12,6 +12,9 @@
 @var            color   colorText       "Text color"        #ccc
 ==/UserStyle== */
 // # Changelog
+//
+// v1.1.26 2022-01-04
+//    - Fix back-to-top, tables, navbar and notification popup styles
 //
 // v1.1.25 2021-11-05
 //    - Fix .list-group-item
@@ -31,10 +34,6 @@
 //
 // v1.1.21 2021-09-07
 //    - Fix card header icon colors
-//
-// v1.1.20 2021-09-05
-//    - Fixes for other stuff broken during the update to 2021 edition --
-//      probably didn't catch everything so hmu if things are still broken
 
 @-moz-document domain("estudijas.rtu.lv") {
 
