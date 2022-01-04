@@ -126,8 +126,19 @@
         background-color: @colorAccentDark;
         border-color: @colorAccent;
     }
-    .navbar .brand:hover, .navbar .nav > li > a:hover, .navbar .dropdown-menu > li > a:hover {
+    .navbar .brand:hover,
+    .navbar .nav > li > a:hover,
+    .navbar .dropdown-menu > li > a:hover,
+    .navbar .nav li.dropdown.open > .dropdown-toggle {
         background-color: @colorAccent !important;
+    }
+
+    .navbar .dropdown-menu {
+        border-bottom-width: 0.125em;
+    }
+
+    .lambda-custom-menu li.dropdown:hover::after {
+        border-bottom-color: @colorBorder;
     }
 
     // Global footer
