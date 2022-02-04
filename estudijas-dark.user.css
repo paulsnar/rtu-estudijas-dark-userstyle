@@ -2,7 +2,7 @@
 @namespace      https://paulsnar.lv/
 @name           RTU Estudijas Darkmode
 @author         paulsnar <paulsnar@paulsnar.lv>
-@version        1.1.26
+@version        1.1.27
 @license        Unlicense
 @homepageURL    https://github.com/paulsnar/rtu-estudijas-dark-userstyle
 @updateURL      https://paulsnar.github.io/rtu-estudijas-dark-userstyle/estudijas-dark.user.css
@@ -12,6 +12,9 @@
 @var            color   colorText       "Text color"        #ccc
 ==/UserStyle== */
 // # Changelog
+//
+// v1.1.27 2022-02-04
+//    - Fix notification popup, again
 //
 // v1.1.26 2022-01-04
 //    - Fix back-to-top, tables, navbar and notification popup styles
@@ -31,9 +34,6 @@
 //    - Finally fix tables (thanks J)
 //    - Fix table layout and color for heading panel
 //    - Fix file picker
-//
-// v1.1.21 2021-09-07
-//    - Fix card header icon colors
 
 @-moz-document domain("estudijas.rtu.lv") {
 
@@ -44,6 +44,7 @@
     @colorBgDark: darken(@colorBg, 15%, relative);
     @colorBgLightPop: lighten(@colorBgLight, 35%, relative);
     @colorBgAccent: mix(@colorBgLight, @colorAccent, 85%);
+    @colorBgAccentPop: mix(@colorBgLight, @colorAccent, 70%);
     @colorBorder: lighten(@colorBgLight, @popDelta * 2, relative);
     @colorAccentDark: darken(@colorAccent, @popDelta * 2, relative);
     @colorAccentSubtle: mix(@colorAccent, @colorText, 35%);
@@ -1166,10 +1167,24 @@
         }
     }
 
-    .content-item-container:hover {
-        background-color: @colorBgLight;
-        color: @colorText;
-    };
+    .content-item-container {
+        border-color: @colorBorder;
+        &, &:hover {
+            .content-item-footer .timestamp {
+                color: @colorText;
+            }
+        }
+        &:hover {
+            background-color: @colorBgLightPop;
+        }
+        &.unread {
+            background-color: @colorBgAccent;
+            &:hover {
+                background-color: @colorBgAccentPop;
+                color: @colorText;
+            }
+        }
+    }
 
     body > center + hr + center {
         color: @colorAccent;
